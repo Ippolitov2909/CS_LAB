@@ -67,7 +67,7 @@ namespace Lab
             {
                 for (int j = 0; j < y.num; j++)
                 {
-                    res += "\n " + i.ToString() + ' ' + j.ToString() + ' ' + values[i, j].ToString();
+                    res += "\n " + (i * x.step).ToString() + ' ' + (j * y.step).ToString() + ' ' + values[i, j].ToString();
                 }
             }
             return res;

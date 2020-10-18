@@ -50,6 +50,8 @@ class TextClass
                 Console.WriteLine(elem);
             }
             Console.WriteLine('\n');
+            Console.WriteLine(cur.ToLongString());
+            Console.WriteLine('\n');
         }
         return 0;
     }
