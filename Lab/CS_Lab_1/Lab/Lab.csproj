@@ -36,11 +36,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="V3Data.cs" />
-    <Compile Include="main.cs" />
-    <Compile Include="V3DataCollection.cs" />
-    <Compile Include="V3DataOnGrid.cs" />
-    <Compile Include="V3MainCollection.cs" />
+    <Compile Include="CodeFile1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Numerics" />
