@@ -30,22 +30,26 @@ struct Grid1D
 
 
 
+
 class TextClass
 {
     static int Main()
     {
-        V3DataOnGrid dog = new V3DataOnGrid(new Grid1D(0.5f, 10), new Grid1D(0.5f, 10), "first_example", new DateTime(2020, 10, 10));
+        V3DataOnGrid dog = new V3DataOnGrid(new Grid1D(0.5f, 3), new Grid1D(0.5f, 3), "first_example", new DateTime(2020, 10, 10));
         dog.InitRandom(0.0f, 10.0f);
-        Console.WriteLine(dog.ToLongString());
+        //Console.WriteLine(dog.ToLongString());
         V3DataCollection dc = (V3DataCollection)dog;
-        Console.WriteLine(dc.ToLongString());
+        //Console.WriteLine(dc.ToLongString());
         V3MainCollection mc = new V3MainCollection();
         mc.AddDefaults();
-        Vector2 vec = new Vector2(1, 2.5f);
-        foreach(V3Data cur in mc)
+        Console.WriteLine(mc.ToString());
+        //Vector2 vec = new Vector2(1, 2.5f);
+        Vector2 vec = new Vector2(0.25f, 0.25f);
+
+        foreach (V3Data cur in mc)
         {
             Vector2[] res = cur.Nearest(vec);
-            foreach(Vector2 elem in res)
+            foreach (Vector2 elem in res)
             {
                 Console.WriteLine(elem);
             }
@@ -53,6 +57,10 @@ class TextClass
             Console.WriteLine(cur.ToLongString());
             Console.WriteLine('\n');
         }
+        Console.WriteLine("\n=====");
+        mc.Remove("aa", new DateTime(2020, 10, 10));
+        Console.WriteLine(mc.ToString());
+
         return 0;
     }
 
