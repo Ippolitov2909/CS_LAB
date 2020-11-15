@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Lab
 {
 
-    class V3MainCollection : IEnumerable
+    class V3MainCollection : IEnumerable<V3Data>
     {
         private System.Collections.Generic.List<V3Data> collect;
         public int Count
@@ -23,27 +23,21 @@ namespace Lab
         {
             collect = new List<V3Data>();
         }
-        public IEnumerator GetEnumerator()
+        public IEnumerator<V3Data> GetEnumerator()
         {
             return collect.GetEnumerator();
         }
-
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return collect.GetEnumerator();
+        }
         void add(V3Data item)
         {
             collect.Add(item);
         }
-        bool Remove(string id, DateTime date)
+        public bool Remove(string id, DateTime date)
         {
-            bool res = false;
-            foreach (V3Data cur in collect)
-            {
-                if (cur.str == id && cur.date_time == date)
-                {
-                    collect.Remove(cur);
-                    res = true;
-                }
-            }
-            return res;
+            return collect.RemoveAll((V3Data elem) => elem.str == id && elem.date_time == date) > 0;
         }
         public void AddDefaults()
         {
