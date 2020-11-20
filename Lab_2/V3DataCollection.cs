@@ -1,13 +1,14 @@
 ﻿using System;
 using Lab;
 using System.Numerics;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-class V3DataCollection : V3Data
+class V3DataCollection : V3Data, IEnumerable<DataItem>
 {
     public System.Collections.Generic.List<DataItem> collect { get; set; }
     public V3DataCollection(string str_, DateTime date_time_) : base(str_, date_time_)
@@ -27,6 +28,34 @@ class V3DataCollection : V3Data
             }
         }
         return res;
+    }
+    public V3DataCollection(string filename)
+    {
+        try
+        {
+            FileStream fs = new FileStream(filename, FileMode.Open);
+            StreamReader sr = new StreamReader(fs);
+            string str_ = sr.ReadLine();
+            str = str_;
+            str_ = sr.ReadLine();
+            date_time = new DateTime(Convert.ToInt32(str_.Split('.')[2]), Convert.ToInt32(str_.Split('.')[1]), Convert.ToInt32(str_.Split('.')[0]));
+            collect = new List<DataItem>();
+            while ((str_ = sr.ReadLine()) != null)
+            {
+                collect.Add(new DataItem(new Vector2(Convert.ToSingle(str_.Split(' ')[0]), Convert.ToSingle(str_.Split(' ')[1])), Convert.ToSingle(str_.Split(' ')[2])));
+            }
+        } catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+    public IEnumerator<DataItem> GetEnumerator()
+    {
+        return collect.GetEnumerator();
+    }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
     public void InitRandom(int nItems, float xmax, float ymax, double minValue, double maxValue)
     {
@@ -69,7 +98,7 @@ class V3DataCollection : V3Data
     }
     public override string ToString()
     {
-        return "V3DataCollection " + base.ToString() + ' ' + collect.Count.ToString();
+        return "V3DataCollection " + base.ToString() + "\nnumber of elements:  " + collect.Count.ToString() + '\n';
     }
     public override string ToLongString()
     {
@@ -79,5 +108,24 @@ class V3DataCollection : V3Data
             res += '\n' + cur.ToString();
         }
         return res;
+    }
+    public override string ToLongString(string format)
+    {
+        string res = this.ToString();
+        foreach (DataItem cur in collect)
+        {
+            res += '\n' + cur.ToString(format);
+        }
+        res += '\n';
+        return res;
+    }
+    public override int MyCount()
+    {
+        return this.Count();
+    }
+    public override IEnumerable<DataItem> GetDataItemFrom()
+    {
+
+        return from dataitem in this select dataitem;
     }
 }
