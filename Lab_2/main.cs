@@ -53,7 +53,7 @@ class TextClass
             Console.WriteLine(dog.ToLongString());
             V3DataCollection dc = (V3DataCollection)dog;
             Console.WriteLine(dc.ToLongString());
-            V3DataCollection test = new V3DataCollection("./test.txt");
+            V3DataCollection test = new V3DataCollection("../../test.txt");
             Console.WriteLine(test.ToLongString("F4"));
             V3MainCollection mc = new V3MainCollection();
             mc.AddDefaults();
