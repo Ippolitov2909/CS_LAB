@@ -1,0 +1,73 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:zz="clr-namespace:Lab;assembly=Lib"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="WpfApp1.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
+    <Window.Resources>
+        <zz:V3MainCollection x:Key="maincollection" x:Name="maincollection" ></zz:V3MainCollection>
+        <CollectionViewSource Source="{Binding}" x:Key ="viewByGrid" x:Name ="byGrid"  Filter="byGrid_Filter"/>
+        <CollectionViewSource Source="{Binding}" x:Key ="viewByCollection" x:Name ="byCollection"  Filter="byCollection_Filter"/>
+        <CollectionViewSource Source="{Binding}" x:Key="viewCollection"/>
+        <zz:GridConverter x:Key="key_grid_converter" x:Name="grid_converter"></zz:GridConverter>
+        <zz:FirstItemConverter x:Key="key_firstitemconverter" />
+        <zz:SecondItemConverter x:Key="key_seconditemconverter"/>
+        <zz:MaxDistanceConverter x:Key="key_maxdistance_converter"/>
+        <DataTemplate x:Key="key_collection_template">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Path=Str}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="key_item_template">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Path=vec, Converter={StaticResource key_firstitemconverter}}"/>
+                <TextBlock Text="{Binding Path=value, Converter={StaticResource key_seconditemconverter}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition> 
+            <ColumnDefinition Width="8*"></ColumnDefinition> 
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Menu Name ="Menu1" Margin="10,10,50,200">
+                <MenuItem Header="File">
+                    <MenuItem Header="New" Name ="New"  Click="New_Click"/>
+                    <MenuItem Header="Open" Name ="Open" Click="Open_Click"/>
+                    <MenuItem Header="Save" Name="Save" Click="Save_Click"/>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Add Defaults" Name ="Add_Defaults" Click="Add_Defaults_Click"/>
+                    <MenuItem Header="Add Defaults V3DataCollection" Name ="AddDefaultsV3DataCollection" Click="AddDefaultsV3DataCollection_Click"/>
+                    <MenuItem Header="Add Defaults V3DataOnGrid" Name ="AddDefaultsV3DataOnGrid" Click="AddDefaultsV3DataOnGrid_Click"/>
+                    <MenuItem Header="Add Element From File" Name ="AddElementFromFile" Click="AddElementFromFile_Click"/>
+                    <MenuItem Header="Remove" Name ="Remove" Click="Remove_Click"/>
+                </MenuItem>
+
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ListBox  Margin="10,80,10,135" Name ="lisBox_DataCoection" ItemsSource="{Binding Source={StaticResource viewByCollection}, Path = CurrentItem}" ItemTemplate="{StaticResource key_item_template}"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2">
+            <TextBlock Margin="10,5,10,5" Text="{Binding Path=max_distance, Converter = {StaticResource key_maxdistance_converter}}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <ListBox  Margin="10,10,10,300" Name="lisBox_Main" ItemsSource="{Binding}"/>
+            <ListBox  Margin="10,80,10,230" Name ="lisBox_DataCollection" ItemsSource="{Binding Source={StaticResource viewByCollection}}" IsSynchronizedWithCurrentItem="True"/>
+            <ListBox  Margin="10,150,10,160" Name="lisBox_DataOnGrid" ItemsSource="{Binding Source={StaticResource viewByGrid}}" IsSynchronizedWithCurrentItem="True"/>
+            <TextBlock  Margin="10,220,10,90" Name = "CurrentDataOnGrid" Text="{Binding Source={StaticResource viewByGrid}, Path=CurrentItem, Converter={StaticResource key_grid_converter}}"/>
+            
+        </Grid>
+    </Grid>
+</Window>
