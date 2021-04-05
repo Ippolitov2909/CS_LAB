@@ -139,7 +139,8 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                string output = "При открытии файла или создании объекта V3DataCollection проиозшла ошибка и было брошено исключение. Причина: \n" + ex.Message;
+                MessageBox.Show(output);
             }
         }
 

@@ -32,7 +32,7 @@ namespace Lab
     }
     delegate void DataChangedEventHandler(object source, DataChangedEventArgs args);
     [Serializable]
-    public class V3MainCollection : IEnumerable<V3Data>, INotifyCollectionChanged
+    public class V3MainCollection : IEnumerable<V3Data>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private System.Collections.Generic.List<V3Data> collect;
         public bool changed_not_saved;
@@ -47,6 +47,8 @@ namespace Lab
         private event DataChangedEventHandler DataChanged;
         [field: NonSerialized]
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
         public void V3DataChangedHandler(object Source, PropertyChangedEventArgs args)
         {
             DataChanged?.Invoke(this, new DataChangedEventArgs(ChangeInfo.ItemChanged, args.PropertyName));
@@ -117,6 +119,7 @@ namespace Lab
         public void collectionChangedHandler(object sender, NotifyCollectionChangedEventArgs args)
         {
             V3MainCollection mainsender = (V3MainCollection) sender;
+            PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("max_distance"));
             mainsender.changed_not_saved = true;
         }
         public int max_count

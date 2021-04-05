@@ -49,7 +49,7 @@ namespace Lab
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                throw(ex);
             }
         }
         public IEnumerator<DataItem> GetEnumerator()
