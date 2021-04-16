@@ -118,9 +118,14 @@ namespace Lab
         }
         public void collectionChangedHandler(object sender, NotifyCollectionChangedEventArgs args)
         {
+            //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             V3MainCollection mainsender = (V3MainCollection) sender;
             PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("max_distance"));
             mainsender.changed_not_saved = true;
+        }
+        public void changed()
+        {
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
         public int max_count
         {
@@ -135,6 +140,10 @@ namespace Lab
             {
                 IEnumerable<DataItem> query = from v3data in this from dataitem in v3data.GetDataItemFrom() select dataitem;
                 IEnumerable<float> query_of_distances = from dataitem1 in query from dataitem2 in query select Vector2.Distance(dataitem1.vec, dataitem2.vec);
+                if (query_of_distances.Count() == 0)
+                {
+                    return 0;
+                }
                 return query_of_distances.Max();
             }
         }
